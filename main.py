@@ -30,7 +30,7 @@ def create_infra_diagram():
         "Infrastructure Overview — Hub & Spoke (Transit Gateway)",
         show=False,
         filename="diagrams/infra_overview",
-        direction="TB",
+        direction="LR",
         graph_attr=graph_attrs,
     ):
         # ── External: MongoDB (third-party managed VPC) ──────────────────

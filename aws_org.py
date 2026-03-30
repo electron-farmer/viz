@@ -26,7 +26,7 @@ def create_aws_org_diagram():
         "AWS Organizations — Account & OU Structure",
         show=False,
         filename="diagrams/aws_org",
-        direction="TB",
+        direction="LR",
         graph_attr=graph_attrs,
     ):
         # ── Root ─────────────────────────────────────────────────────────

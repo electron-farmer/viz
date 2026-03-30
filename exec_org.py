@@ -29,7 +29,7 @@ def create_exec_org_diagram():
         "AWS Account Governance",
         show=False,
         filename="diagrams/exec_org",
-        direction="TB",
+        direction="LR",
         graph_attr=graph_attrs,
         node_attr=node_attrs,
     ):

@@ -39,7 +39,7 @@ def create_exec_network_diagram():
         "Network Architecture — Hub & Spoke",
         show=False,
         filename="diagrams/exec_network",
-        direction="TB",
+        direction="LR",
         graph_attr=graph_attrs,
         node_attr=node_attrs,
     ):

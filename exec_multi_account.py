@@ -41,7 +41,7 @@ def create_exec_multi_account_diagram():
         "Multi-Account Infrastructure — Hub & Spoke",
         show=False,
         filename="diagrams/exec_multi_account",
-        direction="TB",
+        direction="LR",
         graph_attr=graph_attrs,
         node_attr=node_attrs,
     ):
