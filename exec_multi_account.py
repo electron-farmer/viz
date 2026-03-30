@@ -14,30 +14,30 @@ SIGNOZ_ICON = str(_ICONS / "signoz.png")
 IPA_ICON    = str(_ICONS / "freeipa.png")
 
 # Edge styles
-hub_spoke  = {"style": "solid",  "color": "#2C5F8A", "penwidth": "2",   "label": "Private network\n(Transit Gateway)"}
-blocked    = {"style": "dashed", "color": "#C0392B", "penwidth": "2",   "label": "Isolated — no route"}
-telemetry  = {"style": "dashed", "color": "#7F8C8D", "penwidth": "1.5", "label": "Telemetry"}
-deploy     = {"style": "dashed", "color": "#27AE60", "penwidth": "1.5", "label": "Deploy"}
-db_peer    = {"style": "dashed", "color": "#8E44AD", "penwidth": "1.5", "label": "Private peering"}
-internet   = {"style": "solid",  "color": "#E67E22", "penwidth": "1.5", "label": "Internet"}
+hub_spoke  = {"style": "solid",  "color": "#2C5F8A", "penwidth": "3",   "label": "Private network\n(Transit Gateway)", "dir": "both", "fontsize": "14"}
+blocked    = {"style": "dashed", "color": "#C0392B", "penwidth": "3",   "label": "Isolated — no route", "fontsize": "14"}
+telemetry  = {"style": "dashed", "color": "#7F8C8D", "penwidth": "2.5", "label": "Telemetry", "fontsize": "14"}
+deploy     = {"style": "dashed", "color": "#27AE60", "penwidth": "2.5", "label": "Deploy", "fontsize": "14"}
+db_peer    = {"style": "dashed", "color": "#8E44AD", "penwidth": "2.5", "label": "Private peering", "dir": "both", "fontsize": "14"}
+internet   = {"style": "solid",  "color": "#E67E22", "penwidth": "2.5", "label": "Internet", "fontsize": "14"}
 
 
 def create_exec_multi_account_diagram():
     graph_attrs = {
-        "fontsize": "22",
-        "fontname": "Helvetica",
-        "pad": "0.8",
+        "fontsize": "20",
+        "fontname": "Segoe UI",
+        "labelloc": "t",
+        "pad": "0.4",
         "splines": "ortho",
-        "ranksep": "1.2",
-        "nodesep": "0.8",
+        "ranksep": "0.8",
+        "nodesep": "0.5",
         "bgcolor": "white",
     }
     node_attrs = {
-        "fontsize": "11",
+        "fontsize": "13",
         "fontname": "Segoe UI",
-        "fixedsize": "true",
-        "width": "1.2",
-        "height": "1.2",
+        "labelloc": "t",
+        "width": "2.0",
     }
 
     with Diagram(
@@ -48,65 +48,64 @@ def create_exec_multi_account_diagram():
         graph_attr=graph_attrs,
         node_attr=node_attrs,
     ):
+        ca = {"fontsize": "16", "fontname": "Segoe UI"}
+        aa = {"fontsize": "15", "fontname": "Segoe UI", "margin": "4"}
+
         # ── External ──────────────────────────────────────────────────────
-        users   = ELB("Users\n(Internet)")
-        mongodb = RDS("MongoDB Atlas\n(Managed DB)")
+        with Cluster("External", graph_attr=ca):
+            with Cluster("Users\n(Internet)", graph_attr=aa):
+                users = ELB("")
+            with Cluster("MongoDB Atlas\n(Managed DB)", graph_attr=aa):
+                mongodb = RDS("")
 
         # ── Networking OU — Hub ───────────────────────────────────────────
-        with Cluster("Networking OU"):
-            with Cluster("Core Network Account"):
-                tgw = TransitGateway("Transit Gateway\nCentral routing & security boundary")
-                ipa = Custom("Identity Server\n(IPA)", IPA_ICON)
+        with Cluster("Networking OU", graph_attr=ca):
+            with Cluster("Core Network Account", graph_attr=aa):
+                with Cluster("Transit Gateway\nCentral routing & security boundary", graph_attr=aa):
+                    tgw = TransitGateway("")
+                with Cluster("Identity Server\n(IPA)", graph_attr=aa):
+                    ipa = Custom("", IPA_ICON)
                 tgw >> ipa
 
         # ── Application OU — Spokes ───────────────────────────────────────
-        with Cluster("Application OU"):
-
-            with Cluster("IQA Account"):
-                lb_iqa  = ELB("Load Balancer")
-                eks_iqa = EKS("Application")
-                db_iqa  = RDS("Database")
-                s3_iqa  = S3("Storage")
+        with Cluster("Application OU", graph_attr=ca):
+            with Cluster("IQA Account", graph_attr=aa):
+                with Cluster("Load Balancer", graph_attr=aa):
+                    lb_iqa = ELB("")
+                with Cluster("Application\n(EKS)", graph_attr=aa):
+                    eks_iqa = EKS("")
+                with Cluster("Database", graph_attr=aa):
+                    db_iqa = RDS("")
+                with Cluster("Storage", graph_attr=aa):
+                    s3_iqa = S3("")
                 lb_iqa >> eks_iqa
                 eks_iqa >> db_iqa
                 eks_iqa >> s3_iqa
 
-            with Cluster("Sandbox Account"):
-                lb_sb  = ELB("Load Balancer")
-                eks_sb = EKS("Application")
-                db_sb  = RDS("Database")
-                s3_sb  = S3("Storage")
-                lb_sb >> eks_sb
-                eks_sb >> db_sb
-                eks_sb >> s3_sb
-
         # ── Platform OU ───────────────────────────────────────────────────
-        with Cluster("Platform OU"):
-            with Cluster("Observability & CI Account"):
-                otel    = Custom("Metrics & Tracing\n(OpenTelemetry)", OTEL_ICON)
-                signoz  = Custom("Dashboards & Alerts\n(SigNoz)", SIGNOZ_ICON)
-                jenkins = Jenkins("CI / CD Pipelines\n(Jenkins)")
-                otel >> signoz
+        with Cluster("Platform OU", graph_attr=ca):
+            with Cluster("Observability & CI Account", graph_attr=aa):
+                with Cluster("Management EKS Cluster", graph_attr=aa):
+                    with Cluster("Metrics & Tracing\n(OpenTelemetry)", graph_attr=aa):
+                        otel = Custom("", OTEL_ICON)
+                    with Cluster("Dashboards & Alerts\n(SigNoz)", graph_attr=aa):
+                        signoz = Custom("", SIGNOZ_ICON)
+                    with Cluster("CI / CD Pipelines\n(Jenkins)", graph_attr=aa):
+                        jenkins = Jenkins("")
+                    otel >> signoz
 
         # ── Internet ingress ──────────────────────────────────────────────
         users >> Edge(**internet) >> lb_iqa
-        users >> Edge(**internet) >> lb_sb
 
         # ── TGW connects spokes ───────────────────────────────────────────
         tgw >> Edge(**hub_spoke) >> eks_iqa
-        tgw >> Edge(**hub_spoke) >> eks_sb
         tgw >> Edge(**hub_spoke) >> otel
-
-        # ── IQA ↔ Sandbox: enforced isolation ────────────────────────────
-        eks_iqa >> Edge(**blocked) >> eks_sb
 
         # ── Telemetry to observability ────────────────────────────────────
         eks_iqa >> Edge(**telemetry) >> otel
-        eks_sb  >> Edge(**telemetry) >> otel
 
-        # ── CI/CD deploys to both environments ───────────────────────────
+        # ── CI/CD deploys to environment ─────────────────────────────────
         jenkins >> Edge(**deploy) >> eks_iqa
-        jenkins >> Edge(**deploy) >> eks_sb
 
         # ── MongoDB via private peering through hub ───────────────────────
         tgw >> Edge(**db_peer) >> mongodb

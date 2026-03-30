@@ -22,20 +22,20 @@ db_peer    = {"style": "dashed", "color": "#8E44AD", "penwidth": "1.5", "label":
 
 def create_exec_network_diagram():
     graph_attrs = {
-        "fontsize": "22",
-        "fontname": "Helvetica",
-        "pad": "0.8",
+        "fontsize": "20",
+        "fontname": "Segoe UI",
+        "labelloc": "t",
+        "pad": "0.4",
         "splines": "ortho",
-        "ranksep": "1.2",
-        "nodesep": "0.8",
+        "ranksep": "0.8",
+        "nodesep": "0.5",
         "bgcolor": "white",
     }
     node_attrs = {
-        "fontsize": "11",
+        "fontsize": "13",
         "fontname": "Segoe UI",
-        "fixedsize": "true",
-        "width": "1.2",
-        "height": "1.2",
+        "labelloc": "t",
+        "width": "2.0",
     }
 
     with Diagram(

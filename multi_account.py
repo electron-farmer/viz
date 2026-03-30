@@ -26,8 +26,8 @@ trust_edge  = {"style": "dotted", "color": "goldenrod",  "label": "cross-account
 
 
 def create_multi_account_diagram():
-    graph_attrs = {"fontsize": "15", "pad": "0.5", "splines": "ortho", "ranksep": "1.0", "nodesep": "0.6"}
-    node_attrs  = {"fontsize": "11", "fontname": "Segoe UI", "fixedsize": "true", "width": "1.2", "height": "1.2"}
+    graph_attrs = {"fontsize": "20", "fontname": "Segoe UI", "labelloc": "t", "pad": "0.4", "splines": "ortho", "ranksep": "0.8", "nodesep": "0.5"}
+    node_attrs  = {"fontsize": "13", "fontname": "Segoe UI", "labelloc": "t", "width": "2.0"}
 
     with Diagram(
         "Multi-Account Infrastructure — Hub & Spoke",
