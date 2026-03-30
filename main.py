@@ -27,7 +27,7 @@ def create_infra_diagram():
     with Diagram(
         "Infrastructure Overview — Hub & Spoke (Transit Gateway)",
         show=False,
-        filename="infra_overview",
+        filename="diagrams/infra_overview",
         direction="TB",
         graph_attr=graph_attrs,
     ):
