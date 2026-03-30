@@ -4,7 +4,10 @@
       "Bash(export PATH=\"$PATH:/c/Program Files/Graphviz/bin\")",
       "Bash(uv run:*)",
       "Bash(curl -sL \"https://www.svgrepo.com/download/374836/opentelemetry.svg\" -o /c/Users/Andrew/git/viz/icons/opentelemetry.png)",
-      "Bash(echo \"exit: $?\")"
+      "Bash(echo \"exit: $?\")",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }
