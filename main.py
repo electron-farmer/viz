@@ -24,7 +24,8 @@ peer_edge   = {"style": "dashed", "color": "darkorange", "label": "VPC Peering"}
 
 
 def create_infra_diagram():
-    graph_attrs = {"fontsize": "16", "pad": "1.0", "splines": "ortho"}
+    graph_attrs = {"fontsize": "16", "pad": "0.5", "splines": "ortho", "ranksep": "1.0", "nodesep": "0.6"}
+    node_attrs  = {"fontsize": "11", "fontname": "Segoe UI", "fixedsize": "true", "width": "1.2", "height": "1.2"}
 
     with Diagram(
         "Infrastructure Overview — Hub & Spoke (Transit Gateway)",
@@ -32,6 +33,7 @@ def create_infra_diagram():
         filename="diagrams/infra_overview",
         direction="LR",
         graph_attr=graph_attrs,
+        node_attr=node_attrs,
     ):
         # ── External: MongoDB (third-party managed VPC) ──────────────────
         with Cluster("MongoDB Atlas\n(Third-Party Managed VPC)"):

@@ -1,9 +1,6 @@
 from diagrams import Diagram, Cluster, Edge
-from diagrams.aws.management import OrganizationsAccount, ControlTower
+from diagrams.aws.management import OrganizationsAccount, OrganizationsOrganizationalUnit, ControlTower
 from diagrams.aws.network import TransitGateway
-from diagrams.aws.compute import EKS
-from diagrams.aws.devtools import Codebuild
-from diagrams.onprem.monitoring import Grafana
 
 # Edge styles
 governs  = {"style": "solid",  "color": "#2C5F8A", "penwidth": "2"}
@@ -12,19 +9,22 @@ scp_edge = {"style": "dashed", "color": "#C0392B", "penwidth": "1.5", "label": "
 
 def create_exec_org_diagram():
     graph_attrs = {
-        "fontsize": "22",
-        "fontname": "Helvetica",
-        "pad": "1.5",
+        "fontsize": "20",
+        "fontname": "Segoe UI",
+        "labelloc": "t",
+        "pad": "0.4",
         "splines": "ortho",
-        "ranksep": "1.6",
-        "nodesep": "1.2",
+        "ranksep": "0.8",
+        "nodesep": "0.5",
         "bgcolor": "white",
     }
     node_attrs = {
-        "fontsize": "18",
-        "fontname": "Helvetica",
+        "fontsize": "11",
+        "fontname": "Segoe UI",
+        "fixedsize": "true",
+        "width": "1.2",
+        "height": "1.2",
     }
-
     with Diagram(
         "AWS Account Governance",
         show=False,
@@ -34,23 +34,23 @@ def create_exec_org_diagram():
         node_attr=node_attrs,
     ):
         # ── Root governance ───────────────────────────────────────────────
-        mgmt = OrganizationsAccount("Management Account\nBilling · Root · Audit")
+        mgmt = OrganizationsOrganizationalUnit("Management Account\nBilling · Root · Audit")
         ct   = ControlTower("AWS Control Tower\nPolicy Enforcement")
         mgmt >> Edge(**governs) >> ct
 
         # ── Networking OU ─────────────────────────────────────────────────
-        with Cluster("Networking OU\nCentralised connectivity & routing"):
-            core = TransitGateway(
-                "Core Network\nTransit Gateway Hub\nShared with all accounts"
-            )
+        ca = {"margin": "12", "fontsize": "13", "fontname": "Segoe UI"}
+
+        with Cluster("Networking OU", graph_attr=ca):
+            core = TransitGateway("Transit Gateway\nCentral routing hub")
 
         # ── Application OU ────────────────────────────────────────────────
-        with Cluster("Application OU\nIsolated workload environments"):
+        with Cluster("Application OU\nIsolated workload environments", graph_attr=ca):
             iqa  = OrganizationsAccount("IQA Environment\nIntegration & QA workloads")
             sand = OrganizationsAccount("Sandbox Environment\nDevelopment & testing")
 
         # ── Platform OU ───────────────────────────────────────────────────
-        with Cluster("Platform OU\nShared engineering services"):
+        with Cluster("Platform OU\nShared engineering services", graph_attr=ca):
             obs  = OrganizationsAccount("Observability & CI\nMonitoring · Alerting · Deployments")
 
         # ── Control Tower governs all accounts ────────────────────────────
@@ -59,17 +59,6 @@ def create_exec_org_diagram():
         ct >> Edge(**scp_edge) >> sand
         ct >> Edge(**scp_edge) >> obs
 
-        # ── Core network shared to application accounts ───────────────────
-        core >> Edge(
-            style="dashed", color="#7D3C98", penwidth="1.5",
-            label="Shared network (RAM)"
-        ) >> iqa
-        core >> Edge(
-            style="dashed", color="#7D3C98", penwidth="1.5",
-        ) >> sand
-        core >> Edge(
-            style="dashed", color="#7D3C98", penwidth="1.5",
-        ) >> obs
 
 
 if __name__ == "__main__":

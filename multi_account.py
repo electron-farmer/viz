@@ -26,7 +26,8 @@ trust_edge  = {"style": "dotted", "color": "goldenrod",  "label": "cross-account
 
 
 def create_multi_account_diagram():
-    graph_attrs = {"fontsize": "15", "pad": "1.2", "splines": "ortho"}
+    graph_attrs = {"fontsize": "15", "pad": "0.5", "splines": "ortho", "ranksep": "1.0", "nodesep": "0.6"}
+    node_attrs  = {"fontsize": "11", "fontname": "Segoe UI", "fixedsize": "true", "width": "1.2", "height": "1.2"}
 
     with Diagram(
         "Multi-Account Infrastructure — Hub & Spoke",
@@ -34,6 +35,7 @@ def create_multi_account_diagram():
         filename="diagrams/multi_account_overview",
         direction="LR",
         graph_attr=graph_attrs,
+        node_attr=node_attrs,
     ):
         # ── Core Network Account (Hub) ────────────────────────────────────
         with Cluster("Core Network Account\n[10.0.0.0/16]  — HUB"):

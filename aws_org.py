@@ -16,11 +16,13 @@ trust    = {"style": "dotted", "color": "goldenrod",  "label": "cross-account\nI
 def create_aws_org_diagram():
     graph_attrs = {
         "fontsize": "16",
-        "pad": "1.2",
+        "pad": "0.5",
         "splines": "ortho",
-        "ranksep": "1.5",
-        "nodesep": "1.0",
+        "ranksep": "1.0",
+        "nodesep": "0.6",
     }
+
+    node_attrs = {"fontsize": "11", "fontname": "Segoe UI", "fixedsize": "true", "width": "1.2", "height": "1.2"}
 
     with Diagram(
         "AWS Organizations — Account & OU Structure",
@@ -28,6 +30,7 @@ def create_aws_org_diagram():
         filename="diagrams/aws_org",
         direction="LR",
         graph_attr=graph_attrs,
+        node_attr=node_attrs,
     ):
         # ── Root ─────────────────────────────────────────────────────────
         mgmt = OrganizationsAccount("Management Account\n(Billing & Org root)")

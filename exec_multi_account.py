@@ -26,15 +26,18 @@ def create_exec_multi_account_diagram():
     graph_attrs = {
         "fontsize": "22",
         "fontname": "Helvetica",
-        "pad": "1.8",
+        "pad": "0.8",
         "splines": "ortho",
-        "ranksep": "2.0",
-        "nodesep": "1.6",
+        "ranksep": "1.2",
+        "nodesep": "0.8",
         "bgcolor": "white",
     }
     node_attrs = {
-        "fontsize": "18",
-        "fontname": "Helvetica",
+        "fontsize": "11",
+        "fontname": "Segoe UI",
+        "fixedsize": "true",
+        "width": "1.2",
+        "height": "1.2",
     }
 
     with Diagram(
