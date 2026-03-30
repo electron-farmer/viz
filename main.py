@@ -1,3 +1,4 @@
+from pathlib import Path
 from diagrams import Diagram, Cluster, Edge
 from diagrams.aws.compute import EKS
 from diagrams.aws.database import RDS
@@ -9,9 +10,10 @@ from diagrams.aws.storage import S3
 from diagrams.custom import Custom
 from diagrams.onprem.ci import Jenkins
 
-OTEL_ICON   = "icons/opentelemetry.png"
-SIGNOZ_ICON = "icons/signoz.png"
-IPA_ICON    = "icons/freeipa.png"
+_ICONS = Path(__file__).parent / "icons"
+OTEL_ICON   = str(_ICONS / "opentelemetry.png")
+SIGNOZ_ICON = str(_ICONS / "signoz.png")
+IPA_ICON    = str(_ICONS / "freeipa.png")
 
 # Edge style helpers
 tgw_attach  = {"style": "solid",  "color": "royalblue"}

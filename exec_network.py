@@ -1,3 +1,4 @@
+from pathlib import Path
 from diagrams import Diagram, Cluster, Edge
 from diagrams.aws.network import TransitGateway, ELB
 from diagrams.aws.compute import EKS
@@ -6,8 +7,9 @@ from diagrams.aws.storage import S3
 from diagrams.onprem.ci import Jenkins
 from diagrams.custom import Custom
 
-OTEL_ICON   = "icons/opentelemetry.png"
-SIGNOZ_ICON = "icons/signoz.png"
+_ICONS = Path(__file__).parent / "icons"
+OTEL_ICON   = str(_ICONS / "opentelemetry.png")
+SIGNOZ_ICON = str(_ICONS / "signoz.png")
 
 # Edge styles
 traffic    = {"style": "solid",  "color": "#2C5F8A", "penwidth": "2",   "label": "Private traffic\n(Transit Gateway)"}
