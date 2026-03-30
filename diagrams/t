@@ -1,6 +1,0 @@
-digraph t {
-	graph [fontcolor="#2D3436" fontname="Sans-Serif" fontsize=15 label=t nodesep=0.60 pad=2.0 rankdir=LR ranksep=0.75 splines=ortho]
-	node [fixedsize=true fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13 height=1.4 imagescale=true labelloc=b shape=box style=rounded width=1.4]
-	edge [color="#7B8894"]
-	"8dd4db56ce0a40bc86e2dc3f85bc6514" [label=test height=1.9 image="C:\Users\Andrew\git\viz\.venv\Lib\site-packages\resources/aws/management\organizations-account.png" shape=none]
-}
